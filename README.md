@@ -20,3 +20,7 @@ This program was developed to solve arithmetic expressions, after checking wheth
 - Enter the desired arithmetic expression, using integers and arithmetic operators (+, -, *, /, %, ^).
 - Use parentheses '()' and/or brackets '[]' as needed in the expression.
 - The program will check the correctness of the expression and display the result or an error message.
+
+## License
+
+This project is licensed under the MIT License - [LICENSE](https://github.com/GuilhermeLotaif01/JavaExpressionCalculator/blob/main/LICENSE).
