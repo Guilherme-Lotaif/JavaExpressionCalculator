@@ -23,4 +23,4 @@ This program was developed to solve arithmetic expressions, after checking wheth
 
 ## License
 
-This project is licensed under the MIT License - [LICENSE](https://github.com/GuilhermeLotaif01/JavaExpressionCalculator/blob/main/LICENSE).
+This project is licensed under the MIT License - [LICENSE](https://github.com/Guilherme-Lotaif/JavaExpressionCalculator/blob/main/LICENSE).
