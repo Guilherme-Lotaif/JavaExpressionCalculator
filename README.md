@@ -10,11 +10,12 @@ This program was developed to solve arithmetic expressions, containing only inte
    - Use parentheses '()' and/or brackets '[]' as needed in the expression.
    - The program will check the correctness of the expression and display the result or an error message.
 
-2. **Example**
+     **Example**
       - ((3 - 4) + 25 / 3) * 144 % 7
       - Result: 6.0
 
-3. **Logic walkthrough**<br>
+
+2. **Logic walkthrough**<br>
 
    - The program uses a stack structure to store and check the matching of parentheses '()' and brackets '[]' in the entered expression.
    - It iterates through each element in the expression.
