@@ -1,6 +1,6 @@
-# Arithmetic Expressions Evaluator in Java
+# Arithmetic Integer Expressions calculator in Java
 
-This program was developed to solve arithmetic expressions, after checking whether the parentheses are balanced.
+This program was developed to solve arithmetic expressions, containing only integers, only after checking whether the parentheses are balanced.
 
 ## Key Features
 
@@ -9,6 +9,10 @@ This program was developed to solve arithmetic expressions, after checking wheth
 - Enter the desired arithmetic expression, using integers and arithmetic operators (+, -, *, /, %, ^).
 - Use parentheses '()' and/or brackets '[]' as needed in the expression.
 - The program will check the correctness of the expression and display the result or an error message.
+
+  Example:
+  - ((3 - 4) + 25 / 3) * 144 % 7
+  - Result: 6.0
 
 2. **Logic walkthrough**<br>
 
