@@ -2,73 +2,73 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class Calculadora {
+public class Calculator {
 
     public static void main(String[] args) {
-        System.out.println("\nDigite a expressão infixa:");
-        String expressaoInfixa = System.console().readLine();
-        String ExpressãoInfixafinal = expressaoInfixa.replaceAll("\\s", "");
+        System.out.println("\nEnter the infix expression: (Only Integers)");
+        String infixExpression = System.console().readLine();
+        String cleanedInfixExpression = infixExpression.replaceAll("\\s", "");
 
-        if (verificarBalanceamento(ExpressãoInfixafinal)) {
-            String expressaoPosfixa = converterParaPosfixo(ExpressãoInfixafinal);
+        if (checkBalancing(cleanedInfixExpression)) {
+            String postfixExpression = convertToPostfix(cleanedInfixExpression);
             
-            double resultado = calcularExpressao(espacos(expressaoPosfixa, expressaoInfixa));
-            System.out.println("\nResultado: " + resultado + "\n");
+            double result = evaluateExpression(spaceNumbers(postfixExpression, infixExpression));
+            System.out.println("\nResult: " + result + "\n");
         } else {
-            System.out.println("Expressão inválida. Verifique o balanceamento de parênteses e colchetes.");
+            System.out.println("Invalid expression. Check the balance of parentheses and brackets.");
         }
     }
 
-    private static boolean verificarBalanceamento(String expressao) {
-        Stack<Character> pilha = new Stack<>();
+    private static boolean checkBalancing(String expression) {
+        Stack<Character> stack = new Stack<>();
 
-        for (char caractere : expressao.toCharArray()) {
-            if (caractere == '(' || caractere == '[') {
-                pilha.push(caractere);
-            } else if (caractere == ')' || caractere == ']') {
-                if (pilha.isEmpty() || !balanceamento(pilha.pop(), caractere)) {
+        for (char character : expression.toCharArray()) {
+            if (character == '(' || character == '[') {
+                stack.push(character);
+            } else if (character == ')' || character == ']') {
+                if (stack.isEmpty() || !isBalanced(stack.pop(), character)) {
                     return false;
                 }
             }
         }
-        return pilha.isEmpty();
+        return stack.isEmpty();
     }
 
-    private static boolean balanceamento(char aberto, char fechado) {
-        return (aberto == '(' && fechado == ')') || (aberto == '[' && fechado == ']');
+    private static boolean isBalanced(char open, char close) {
+        return (open == '(' && close == ')') || (open == '[' && close == ']');
     }
 
-    private static String converterParaPosfixo(String expressaoInfixa) {
-        String posfixa = "";
-        Stack<Character> pilhaOperadores = new Stack<>();
+    private static String convertToPostfix(String infixExpression) {
+        String postfix = "";
+        Stack<Character> operatorStack = new Stack<>();
     
-        for (int i = 0; i < expressaoInfixa.length(); i++) {
-            char caractereAtual = expressaoInfixa.charAt(i);
+        for (int i = 0; i < infixExpression.length(); i++) {
+            char currentChar = infixExpression.charAt(i);
     
-            if (Character.isLetterOrDigit(caractereAtual)) {
-                posfixa += caractereAtual;
-            } else if (caractereAtual == '(') {
-                pilhaOperadores.push(caractereAtual);
-            } else if (caractereAtual == ')') {
-                while (!pilhaOperadores.isEmpty() && pilhaOperadores.peek() != '(') {
-                    posfixa += pilhaOperadores.pop();
+            if (Character.isLetterOrDigit(currentChar)) {
+                postfix += currentChar;
+            } else if (currentChar == '(') {
+                operatorStack.push(currentChar);
+            } else if (currentChar == ')') {
+                while (!operatorStack.isEmpty() && operatorStack.peek() != '(') {
+                    postfix += operatorStack.pop();
                 }
-                pilhaOperadores.pop();
+                operatorStack.pop();
             } else {
-                while (!pilhaOperadores.isEmpty() && precedencia(caractereAtual) <= precedencia(pilhaOperadores.peek())) {
-                    posfixa += pilhaOperadores.pop();
+                while (!operatorStack.isEmpty() && precedence(currentChar) <= precedence(operatorStack.peek())) {
+                    postfix += operatorStack.pop();
                 }
-                pilhaOperadores.push(caractereAtual);
+                operatorStack.push(currentChar);
             }
         }
-        while (!pilhaOperadores.isEmpty()) {
-            posfixa += pilhaOperadores.pop() + " ";
+        while (!operatorStack.isEmpty()) {
+            postfix += operatorStack.pop() + " ";
         }
-        return posfixa.trim();
+        return postfix.trim();
     }
     
-    private static int precedencia(char operador) {
-        switch (operador) {
+    private static int precedence(char operator) {
+        switch (operator) {
             case '+':
             case '-':
                 return 1;
@@ -83,64 +83,67 @@ public class Calculadora {
         }
     }
 
-    public static String espacos(String input, String expressaoInfixa) {
-        StringBuilder resultado = new StringBuilder();
-        List<Integer> numDigitos = contarDigitos(expressaoInfixa);
+    public static String spaceNumbers(String input, String infixExpression) {
+        StringBuilder result = new StringBuilder();
+        List<Integer> numDigits = countDigits(infixExpression);
     
         int i = 0;
         int j = 0;
     
         while (i < input.length()) {
             if (Character.isDigit(input.charAt(i))) {
-                int currentNumDigitos = numDigitos.get(j);
-                resultado.append(input, i, i + currentNumDigitos).append(" ");
-                i += currentNumDigitos;
+                int currentNumDigits = numDigits.get(j);
+                result.append(input, i, i + currentNumDigits).append(" ");
+                i += currentNumDigits;
                 j++;
             } else {
-                resultado.append(input.charAt(i)).append(" ");
+                result.append(input.charAt(i)).append(" ");
                 i++;
             }
         }
-        return resultado.toString().trim();
+        return result.toString().trim();
     }
 
-    public static double calcularExpressao(String expressao) {
-        Stack<Double> pilha = new Stack<>();
+    public static double evaluateExpression(String expression) {
+        Stack<Double> stack = new Stack<>();
 
-        String[] elementos = expressao.split(" ");
+        String[] elements = expression.split(" ");
 
-        for (String elemento : elementos) {
-            if (isNumero(elemento)) {
-                pilha.push(Double.parseDouble(elemento));
+        for (String element : elements) {
+            if (isNumber(element)) {
+                stack.push(Double.parseDouble(element));
             } else {
-                double num2 = pilha.pop();
-                double num1 = pilha.pop();
+                double num2 = stack.pop();
+                double num1 = stack.pop();
 
-                switch (elemento) {
+                switch (element) {
                     case "+":
-                        pilha.push(num1 + num2);
+                        stack.push(num1 + num2);
                         break;
                     case "-":
-                        pilha.push(num1 - num2);
+                        stack.push(num1 - num2);
                         break;
                     case "*":
-                        pilha.push(num1 * num2);
+                        stack.push(num1 * num2);
                         break;
                     case "/":
-                        pilha.push(num1 / num2);
+                        stack.push(num1 / num2);
                         break;
                     case "%":
-                        pilha.push(num1 % num2);
+                        stack.push(num1 % num2);
+                        break;
+                    case "^":
+                        stack.push(Math.pow(num1,num2));
                         break;
                     default:
-                        throw new IllegalArgumentException("Operador inválido: " + elemento);
+                        throw new IllegalArgumentException("Invalid operator: " + element);
                 }
             }
         }
-        return pilha.pop();
+        return stack.pop();
     }
 
-    private static boolean isNumero(String str) {
+    private static boolean isNumber(String str) {
         for (char c : str.toCharArray()) {
             if (!Character.isDigit(c) && c != '.') {
                 return false;
@@ -149,22 +152,21 @@ public class Calculadora {
         return true;
     }
 
-       private static List<Integer> contarDigitos(String expressao) {
-        List<Integer> numDigitosList = new ArrayList<>();
-        StringBuilder numAtual = new StringBuilder();
+    private static List<Integer> countDigits(String expression) {
+        List<Integer> numDigitsList = new ArrayList<>();
+        StringBuilder currentNum = new StringBuilder();
 
-        for (char caractere : expressao.toCharArray()) {
-            if (Character.isDigit(caractere) || caractere == '.') {
-                numAtual.append(caractere);
-            } else if (numAtual.length() > 0) {
-                numDigitosList.add(numAtual.length());
-                numAtual.setLength(0);
+        for (char character : expression.toCharArray()) {
+            if (Character.isDigit(character) || character == '.') {
+                currentNum.append(character);
+            } else if (currentNum.length() > 0) {
+                numDigitsList.add(currentNum.length());
+                currentNum.setLength(0);
             }
         }
-
-        if (numAtual.length() > 0) {
-            numDigitosList.add(numAtual.length());
+        if (currentNum.length() > 0) {
+            numDigitsList.add(currentNum.length());
         }
-        return numDigitosList;
+        return numDigitsList;
     }
 }
