@@ -5,7 +5,7 @@ import java.util.Stack;
 public class Calculator {
 
     public static void main(String[] args) {
-        System.out.println("\nEnter the infix expression:");
+        System.out.println("\nEnter the infix expression: (Only Integers)");
         String infixExpression = System.console().readLine();
         String cleanedInfixExpression = infixExpression.replaceAll("\\s", "");
 
@@ -131,6 +131,9 @@ public class Calculator {
                         break;
                     case "%":
                         stack.push(num1 % num2);
+                        break;
+                    case "^":
+                        stack.push(Math.pow(num1,num2));
                         break;
                     default:
                         throw new IllegalArgumentException("Invalid operator: " + element);
