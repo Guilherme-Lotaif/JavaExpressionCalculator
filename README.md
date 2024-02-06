@@ -6,7 +6,7 @@ This program was developed to solve arithmetic expressions, containing only inte
 
 1. **Usage Instructions**
 
-  - Enter the desired arithmetic expression, using integers and arithmetic operators (+, -, *, /, %, ^).
+   - Enter the desired arithmetic expression, using integers and arithmetic operators (+, -, *, /, %, ^).
   - Use parentheses '()' and/or brackets '[]' as needed in the expression.
   - The program will check the correctness of the expression and display the result or an error message.
 
