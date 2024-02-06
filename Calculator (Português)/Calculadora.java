@@ -5,7 +5,7 @@ import java.util.Stack;
 public class Calculator {
 
     public static void main(String[] args) {
-        System.out.println("\nEnter the infix expression: (Only Integers)");
+        System.out.println("\nEnter the infix expression: (Only Integers) ");
         String infixExpression = System.console().readLine();
         String cleanedInfixExpression = infixExpression.replaceAll("\\s", "");
 
